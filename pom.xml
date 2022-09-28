@@ -10,7 +10,7 @@
 		<java-version>1.8</java-version>
 		<org.springframework-version>4.3.30.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
-		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.slf4j-version>1.7.36</org.slf4j-version>
 	</properties>
 	<dependencies>
 		<!--  Spring  -->
@@ -56,9 +56,9 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.15</version>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.2</version>
 			<exclusions>
 				<exclusion>
 					<groupId>javax.mail</groupId>
@@ -85,15 +85,14 @@
 			<artifactId>javax.inject</artifactId>
 			<version>1</version>
 		</dependency>
+
 		<!--  Servlet  -->
-		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
+			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
 			<artifactId>javax.servlet.jsp-api</artifactId>
@@ -113,11 +112,18 @@
 			<version>3.0.15.RELEASE</version>
 		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring4 -->
+		<dependency>
+			<groupId>org.thymeleaf</groupId>
+			<artifactId>thymeleaf-spring4</artifactId>
+			<version>3.0.15.RELEASE</version>
+		</dependency>
+
 		<!--  Test  -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.7</version>
+			<version>4.13.2</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -140,7 +146,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
+				<version>3.10.0</version>
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
