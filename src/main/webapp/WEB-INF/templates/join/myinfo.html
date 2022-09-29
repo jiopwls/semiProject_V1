@@ -39,29 +39,7 @@ footer p{padding-top:10px;text-align:center;}
 </head>
 <body>
 <div id="container">
-	<header>
-		<h1>스프링 MVC 프로젝트 V1</h1>
-		<nav>
-			<ul>
-				<li>
-					<a href="/">Home</a>
-				</li>
-				<li>
-					<a href="/join">회원가입</a>
-				</li>
-				<li>
-					<a href="/login">로그인</a>
-				</li>
-				<li>
-					<a href="/list">게시판</a>
-				</li>
-				<li>
-					<a href="/myinfo">회원정보</a>
-				</li>
-			</ul>
-		</nav>
-		<hr>
-	</header>
+	<th:block th:include="layout/header"></th:block>
 
 	<div id="main">
 	<p>여기는 메인</p>
@@ -130,10 +108,7 @@ footer p{padding-top:10px;text-align:center;}
 		</div>
 	</div>
 
-	<footer>
-		<hr>
-		<p>copyright &copy; 2022. jinn. All rights reserved.</p>
-	</footer>
+	<th:block th:include="layout/footer"></th:block>
 </div>
 </body>
 </html>
