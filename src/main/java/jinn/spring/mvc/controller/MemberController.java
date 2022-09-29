@@ -2,6 +2,7 @@ package jinn.spring.mvc.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class MemberController {
@@ -9,6 +10,11 @@ public class MemberController {
 	@GetMapping("/join")
 	public String join() {
 		return "join/join";
+	}
+	
+	@PostMapping("/join")
+	public String joinok() {
+		return "redirect:/login";
 	}
 	
 	@GetMapping("/login")

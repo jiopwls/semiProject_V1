@@ -4,19 +4,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class boardController {
+public class BoardController {
 
-	@GetMapping("/board")
+	@GetMapping("/list")
 	public String join() {
 		return "board/list";
 	}
 	
-	@GetMapping("/board")
+	@GetMapping("/view")
 	public String login() {
 		return "board/view";
 	}
 	
-	@GetMapping("/board")
+	@GetMapping("/write")
 	public String myinfo() {
 		return "board/write";
 	}
