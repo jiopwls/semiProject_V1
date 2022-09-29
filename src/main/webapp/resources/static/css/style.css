@@ -1,5 +1,7 @@
 /* 전체*/
-* {margin:0 auto; padding:0; box-sizing:border-box;}
+* {margin:0 auto; padding:0; box-sizing:border-box;
+font-family: 'Noto Sans KR', sans-serif !important;
+}
 #container { width:950px; outline:1px solid red;}
 /* 헤더 스타일*/
 	h1{margin-bottom:10px;}
@@ -13,14 +15,29 @@
 /* 메인 스타일*/
 #main{height:1500px;}
 .space{clear:both;}
-#join_box{ width:300px; outline:1px solid red;
+#join{ width:350px; outline:1px solid red;
 }
-#join_box div{float:right;}
-#join_box div button{width:80px; margin:5px 0 0 5px;}
+#join div{margin-bottom:10px;}
+#join label{
+	width:110px;
+	display:inline-block;
+	text-align:right;
+	font-weight:bold;
+}
+#join div input{width:165px; padding-left:5px;}
+#join div button:first-child{margin-left:115px; width:80px;}
+#join div button{width:80px;}
 
-#login_box{ width:300px; outline:1px solid red;}
-#login_box div{float:right;}
-#login_box div button{width:80px; margin:5px 0 0 5px;}
+#login{ width:350px;}
+#login div{margin-bottom:10px;}
+#login label{
+	width:110px;
+	display:inline-block;
+	text-align:right;
+	font-weight:bold;
+}
+#login div input{width:165px; padding-left:5px;}
+#login div button{margin-left:115px; width:80px;}
 
 #myinfo_box{ width:300px; outline:1px solid red;}
 #myinfo_box div{float:right;}
