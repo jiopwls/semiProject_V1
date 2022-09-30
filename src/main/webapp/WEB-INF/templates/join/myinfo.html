@@ -4,18 +4,48 @@ layout:decorate="~{fragments/layout}"
 
 <th:block layout:fragment="mystyle">
 <style>
+	tr th{
+		padding-bottom:5px;
+	}
+	tr th:first-child{
+		padding-right:10px;
+	}
+	tr th:last-child{
+		text-align:left;
+		font-weight:normal;
+	}
+	table{
 
+	}
 </style>
 </th:block>
 
-<th:block layout:fragment="mystyle">
-
-
+<th:block layout:fragment="main">
 	<div id="main">
-	
+		<h1>회원정보</h1>
+		<table>
+			<tr>
+				<th>아이디
+				</th>
+				<th th:text="${mbr.userid}"></th>
+			</tr>
+			<tr>
+				<th>이름
+				</th>
+				<th th:text="${mbr.name}"></th>
+			</tr>
+			<tr>
+				<th>이메일
+				</th>
+				<th th:text="${mbr.email}"></th>
+			<tr>
+				<th>가입일
+				</th>
+				<th th:text="${mbr.regdate}"></th>
+			</tr>
+		</table>		
 	</div>
 </th:block>
-
 <th:block layout:fragment="myscript">
 	<script>
 		

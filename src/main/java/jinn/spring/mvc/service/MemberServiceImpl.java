@@ -20,5 +20,11 @@ public class MemberServiceImpl implements MemberService{
 		if(mdao.insertMember(mvo) > 0) isInsert = true;
 		return isInsert;
 	}
+
+	@Override
+	public MemberVO readOneMember() {
+		
+		return mdao.selectOneMember();
+	}
 	
 }

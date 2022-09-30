@@ -13,7 +13,7 @@ font-family: 'Noto Sans KR', sans-serif !important;
 	a:hover{text-decoration: underline; color:red;}	
 	header hr{clear:both; background:black; height:1.5px;}
 /* 메인 스타일*/
-#main{height:1500px;}
+#main{height:500px;}
 .space{clear:both;}
 #join{ width:350px;
 }
