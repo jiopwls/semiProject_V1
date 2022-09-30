@@ -17,11 +17,7 @@ public class BoardDAOImpl implements BoardDAO{
 	private JdbcTemplate jdbcTemplate;
 	private SimpleJdbcInsert simpleInsert;
 	
-	public BoardDAOImpl(DataSource dataSource) {
-		simpleInsert = new SimpleJdbcInsert(dataSource)
-				.withTableName("board")
-				.usingColumns("title","userid","contents");
-	}
+	
 	
 	@Override
 	public int insertBoard(BoardVO bvo) {
