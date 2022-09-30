@@ -3,12 +3,64 @@
 layout:decorate="~{fragments/layout}"
 >
 
-<th:block layout:fragment="mystyle"></th:block>
+<th:block layout:fragment="mystyle">
+<style>
+	#boardfrm{
+		width:600px;
+	}
+	#boardfrm div{margin-bottom:10px;}
+	#boardfrm label{
+	width:110px;
+	display:inline-block;
+	text-align:right;
+	font-weight:bold;
+	margin-right:5px;
+}
+#boardfrm div input{width:165px; padding-left:5px;}
+#boardfrm div button:first-child{margin-left:115px; width:80px;}
+#boardfrm div button{margin-left:10px; width:80px;}
+#cnt_box label{vertical-align:top;}
+</style>
+</th:block>
 
 <th:block layout:fragment="main">
 	<div id="main">
 		<h1>게시판 새글쓰기</h1>
+		<form name="boardfrm" id="boardfrm">
+			<div>
+				<label for="tlt">제목</label>
+				<input type="text" name="title" id="tlt">
+			</div>
+			<div>
+				<label for="uid">작성자</label>
+				<input type="text" name="userid" id="uid" value="gd" readonly>
+			</div>
+			<div id="cnt_box">
+				<label for="cnt">본문</label>
+				<textarea cols="55" rows="7" name="contents" id="cnt"></textarea>
+			</div>
+			<div>
+				<button type="button" id="bd_okbtn">입력완료</button>
+				<button type="reset">다시입력</button>
+			</div>
+		</form>
 	</div>
 </th:block>
 
-<th:block layout:fragment="myscript"></th:block>
+<th:block layout:fragment="myscript">
+	<script>
+	let bd_okbtn = document.getElementById("bd_okbtn");
+	bd_okbtn.addEventListener('click', checkboardfrm);
+	
+	function checkboardfrm(){
+		let frm = document.boardfrm;
+		
+		if (frm.title.value == '') alert('제목을 입력해주세요.');
+		else if (frm.contents.value == '')  alert('본문을 입력해주세요.');
+		else {
+			frm.method = 'post';
+			frm.submit();
+		}
+	}
+	</script>
+</th:block>
