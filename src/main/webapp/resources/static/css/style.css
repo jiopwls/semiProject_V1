@@ -2,20 +2,20 @@
 * {margin:0 auto; padding:0; box-sizing:border-box;
 font-family: 'Noto Sans KR', sans-serif !important;
 }
-#container { width:950px; outline:1px solid red;}
+#container { width:950px;}
 /* 헤더 스타일*/
-	h1{margin-bottom:10px;}
+	h1{margin:15px 0;}
 	nav ul {list-style:none; }
 	nav ul li {float:left; margin-left:100px; padding-bottom:10px;}
 	nav ul li:first-child {margin-left:140px;}
-	a{font-weight:bold; text-decoration:none; color:#000;}
+	a{font-weight:bold!important; text-decoration:none; color:#000;}
 	a:visited{color:black;}
 	a:hover{text-decoration: underline; color:red;}	
 	header hr{clear:both; background:black; height:1.5px;}
 /* 메인 스타일*/
 #main{height:1500px;}
 .space{clear:both;}
-#join{ width:350px; outline:1px solid red;
+#join{ width:350px;
 }
 #join div{margin-bottom:10px;}
 #join label{

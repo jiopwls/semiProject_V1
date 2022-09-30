@@ -1,5 +1,7 @@
 package jinn.spring.mvc.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,12 @@ public class BoardServiceImpl implements BoardService{
 		if(bdao.insertBoard(bvo) > 0) isInsert = true;
 		
 		return isInsert;
+	}
+
+	@Override
+	public List<BoardVO> readBoard() {
+		
+		return bdao.selectBoard();
 	}
 
 }

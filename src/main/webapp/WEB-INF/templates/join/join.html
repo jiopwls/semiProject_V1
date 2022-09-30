@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Semi Project</title>
-<link th:href="@{/static/css/style.css}" rel="stylesheet">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout}"
+>
 
-</head>
-<body>
+<th:block layout:fragment="mystyle">
+</th:block>
 
-<div id="container">
-	<th:block th:include="layout/header"></th:block>
-
+<th:block layout:fragment="main">
 	<div id="main">
 		<h1>회원가입</h1>
 		<form name="join" id="join">
@@ -40,11 +35,13 @@
 			</div>
 		</form>
 	</div>
+	</div>
+</th:block>
 
-	<th:block th:include="layout/footer"></th:block>
-</div>
+<th:block layout:fragment="myscript">
 
 <script>
+
 	var okbtn = document.getElementById("okbtn");
 	okbtn.addEventListener('click',checkjoinfrm);
 	
@@ -68,5 +65,5 @@
 		}
 	}
 </script>
-</body>
+</th:block>
 </html>

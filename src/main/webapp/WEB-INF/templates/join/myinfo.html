@@ -1,114 +1,24 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Semi Project</title>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout}"
+>
+
+<th:block layout:fragment="mystyle">
 <style>
 
-/* 전체*/
-* {margin:0 auto; padding:0; box-sizing:border-box;}
-#container { width:950px; outline:1px solid red;}
-/* 헤더 스타일*/
-	h1{margin-bottom:10px;}
-	nav ul {list-style:none; }
-	nav ul li {float:left; margin-left:100px; padding-bottom:10px;}
-	nav ul li:first-child {margin-left:140px;}
-	a{font-weight:bold; text-decoration:none; color:#000;}
-	a:visited{color:black;}
-	a:hover{text-decoration: underline; color:red;}	
-	header hr{clear:both; background:black; height:1.5px;}
-/* 메인 스타일*/
-#main{height:1500px;}
-.space{clear:both;}
-#join_box{ width:300px; outline:1px solid red;
-}
-#join_box div{float:right;}
-#join_box div button{width:80px; margin:5px 0 0 5px;}
-
-#login_box{ width:300px; outline:1px solid red;}
-#login_box div{float:right;}
-#login_box div button{width:80px; margin:5px 0 0 5px;}
-
-#myinfo_box{ width:300px; outline:1px solid red;}
-#myinfo_box div{float:right;}
-#myinfo_box div button{width:80px; margin:5px 0 0 5px;}
-
-/* 푸터 스타일*/
-footer p{padding-top:10px;text-align:center;}
 </style>
-</head>
-<body>
-<div id="container">
-	<th:block th:include="layout/header"></th:block>
+</th:block>
+
+<th:block layout:fragment="mystyle">
+
 
 	<div id="main">
-	<p>여기는 메인</p>
-	<img src="https://placeimg.com/400/400/any" >
-	<h3>회원가입</h3>
-		<div id="join_box">
-			<div>
-				<span>아이디</span>
-				<input type="text">
-			</div>
-			<div>
-				<span>비밀번호</span>
-				<input type="password">
-			</div>
-			<div>
-				<span>비밀번호 확인</span>
-				<input type="password">
-			</div>
-			<div>
-				<span>이름</span>
-				<input type="text">
-			</div>
-			<div>
-				<button type="submit" >입력완료</button>
-				<button type="button" >다시입력</button>
-			</div>
-		</div>
-		<div class="space"></div>
-		<h3>로그인</h3>
-		<div id="login_box">
-			<div>
-				<span>아이디</span>
-				<input type="text">
-			</div>
-			<div>
-				<span>비밀번호</span>
-				<input type="password">
-			</div>
-			<div>
-				<button type="submit" >로그인</button>
-			</div>
-		</div>
-		<div class="space"></div>
-		<h3>회원정보</h3>
-		<div id="myinfo_box">
-			<div>
-				<span>아이디</span>
-				<input type="text">
-			</div>
-			<div>
-				<span>비밀번호</span>
-				<input type="password">
-			</div>
-			<div>
-				<span>비밀번호 확인</span>
-				<input type="password">
-			</div>
-			<div>
-				<span>이름</span>
-				<input type="text">
-			</div>
-			<div>
-				<button type="submit" >입력완료</button>
-				<button type="button" >다시입력</button>
-			</div>
-		</div>
+	
 	</div>
+</th:block>
 
-	<th:block th:include="layout/footer"></th:block>
-</div>
-</body>
+<th:block layout:fragment="myscript">
+	<script>
+		
+	</script>
+</th:block>
 </html>

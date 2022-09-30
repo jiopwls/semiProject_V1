@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Semi Project</title>
-<link th:href="@{/static/css/style.css}" rel="stylesheet">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout}"
+>
 
-<style>
+<th:block layout:fragment="mystyle">
+</th:block>
 
-</style>
-</head>
-<body>
-<div id="container">
-	<th:block th:include="layout/header"></th:block>
-
+<th:block layout:fragment="main">
 	<div id="main">
 		<h1>로그인</h1>
 		<form name="login" id="login">
@@ -30,9 +23,9 @@
 		</form>
 		
 	</div>
+</th:block>
 
-	<th:block th:include="layout/footer"></th:block>
-</div>
+<th:block layout:fragment="myscript">
 <script>
 	var loginbtn = document.getElementById("loginbtn");
 	loginbtn.addEventListener('click',checkloginfrm);
@@ -48,5 +41,5 @@
 		}	
 	}
 </script>
-</body>
+</th:block>
 </html>
