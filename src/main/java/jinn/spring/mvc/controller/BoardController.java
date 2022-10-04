@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import jinn.spring.mvc.service.BoardService;
 import jinn.spring.mvc.vo.BoardVO;
@@ -21,17 +22,44 @@ public class BoardController {
 	@Autowired
 	private BoardService bsrv;
 	
+	/* 
+	 페이징 처리
+	 페이지 당 게시물 수 perPage: 25개
+	 총 페이지 수 : 전체 게시물 수 / 페이지 당 게시물 수
+	 총 페이지 수 pages : ceil(getTotalPage / perPage)
+	 예) 2 = 50/25, 3 = 51/25  
+	 */
+	
+	/*
+	 페이지 별 읽어올 게시글 범위
+	 총 게시글이 55건이라 할때
+	 1page : 1 ~ 25
+	 2page : 26 ~ 50
+	 3page : 51 ~ 55
+	 ipage : m번째 ~ n번째까지
+	 m = ( i - 1 ) * 25 + 1  
+	 
+	 */
+	
 	@GetMapping("/list")
-	public String list(Model m) {
-		m.addAttribute("bdlist", bsrv.readBoard());
+	public String list(Model m, String cpg) {
+		int perPage = 20;
+		int snum = (Integer.parseInt(cpg) - 1) * perPage;
+		
+		m.addAttribute("bdlist", bsrv.readBoard(snum));
 		
 		
 		return "board/list";
 	}
 	
 	@GetMapping("/view")
-	public String view() {
-		return "board/view";
+	public ModelAndView view(ModelAndView mv, String b_no) {
+		
+		mv.setViewName("board/view");
+		mv.addObject("bd", bsrv.readOneBoard(b_no));
+		
+		
+		return mv;
 	}
 	
 	// 로그인 안했다면 -> redirect:/login

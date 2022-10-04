@@ -2,12 +2,97 @@
 layout:decorate="~{fragments/layout}"
 >
 
-<th:block layout:fragment="mystyle"></th:block>
+<th:block layout:fragment="mystyle">
+	<style>
+		#view {
+			outline:1px solid blue;
+			width:75%;
+			margin:65px auto;
+		}
+		label {
+			display:inline-block;
+			vertical-align:top;
+			width:70px;
+			text-align:justify;
+			vertical-align:middle;
+			margin:0 30px 10px 130px;
+			font-size:16px;
+			font-weight:bold;
+			outline:1px solid black;
+		}
+		label:after{
+			content:'';
+			display:inline-block;
+			width:100%;
+		}
+		#cnts{
+			width:300px;
+			display:inline-block;
+			outline:1px solid red;
+		}
+		button{
+			margin-top:20px;
+		}
+	</style>
+</th:block>
 
 <th:block layout:fragment="main">
 	<div id="main">
 		<h1>게시판 본문</h1>
+		<div id="view">
+			<div>
+				<label for="tlt">제목</label>
+				<span th:text="${bd.title}"></span>
+			</div>
+			<div>
+				<label for="uid">작성자</label>
+				<span th:text="${bd.userid}"></span>
+			</div>
+			<div>
+				<label for="regdate">작성일</label>
+				<span th:text="${bd.regdate}"></span>
+			</div>
+			<div>
+				<label for="view">조회수</label>
+				<span th:text="${bd.views}"></span>
+			</div>
+			<div id="cnt_box">
+				<label for="cnt">본문</label>
+				<span th:text="${bd.contents}" id="cnts"></span>
+			</div>
+			<div>
+				<label></label>
+					<button type="button" id="go2list">목록</button>
+					<button type="button" id="go2upd">수정하기</button>
+					<button type="button" id="go2del">삭제하기</button>
+			</div>
+		</div>
 	</div>
 </th:block>
 
-<th:block layout:fragment="myscript"></th:block>
+<th:block layout:fragment="myscript">
+	<script>
+		let go2list = document.getElementById('go2list');
+		let go2upd = document.getElementById('go2upd');
+		let go2del = document.getElementById('go2del');
+		let cnts = document.querySelector('#cnts');
+		
+		go2list.addEventListener('click',go2lists);
+		go2upd.addEventListener('click',go2upds);
+		go2del.addEventListener('click',go2dels);
+		
+		function go2lists() {location.href='/list'}
+		function go2upds() {
+			if(confirm('수정 하시겠습니까?')) {
+				location.href= '/upd?b_no=[[${param.b_no}]]';
+			};
+		};
+		function go2dels() {
+				if(confirm('삭제 하시겠습니까?')) {
+					location.href= '/del?b_no=[[${param.b_no}]]';
+				};
+			};
+		
+		cnts.setAttribute('style','white-space:pre;');
+	</script>
+</th:block>
