@@ -1,9 +1,5 @@
 package jinn.spring.mvc.dao;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.Collections;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +42,10 @@ public class MemberDAOImpl implements MemberDAO{
 	}
 
 	@Override
-	public MemberVO selectOneMember() {
-		String sql = "select userid, name, email, regdate from member where mno = 1";
+	public MemberVO selectOneMember(String uid) {
+		String sql = "select userid, name, email, regdate from member where userid = ?";
+		
+		Object[] params = {uid};
 
 		RowMapper<MemberVO> memberMapper = (rs, num) -> {
 			MemberVO m = new MemberVO();
@@ -60,7 +58,18 @@ public class MemberDAOImpl implements MemberDAO{
 			return m;
 		};
 		
-		return jdbcTemplate.queryForObject(sql, null, memberMapper);
+		return jdbcTemplate.queryForObject(sql, params, memberMapper);
+	}
+
+	@Override
+	public int selectOneMember(MemberVO m) {
+		//count 쓰는 이유 한 줄씩 mno로 중복여부를 확인하기 위해서  *별표를 쓰면 모든 행의 모든 값을 확인하기 때문에 비효율적이다.
+		String sql = "select count(mno) from member where userid = ? and passwd = ?";
+		
+		Object[] params = {m.getUserid(), m.getPasswd()};
+		
+		
+		return jdbcTemplate.queryForObject(sql,params,Integer.class);
 	}
 	
 	

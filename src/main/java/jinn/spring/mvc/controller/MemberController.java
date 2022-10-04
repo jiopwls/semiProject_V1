@@ -1,5 +1,7 @@
 package jinn.spring.mvc.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,16 +48,39 @@ public class MemberController {
 		return "join/login";
 	}
 	
-	@PostMapping("/login")
-	public String loginok() {
-		return "redirect:/myinfo";
+	@PostMapping("/login") //로그인 처리
+	public String loginok(MemberVO mvo, HttpSession sess) {
+		
+		String returnPage = "join/lgnfail";
+	
+		if (msrv.checkLogin(mvo)) {
+			sess.setAttribute("m", mvo); //회원정보를 세션에 저장
+			returnPage = "redirect:/myinfo";
+		}
+		return returnPage;
 	}
 	
+	@GetMapping("/logout")
+	public String logout(HttpSession sess) {
+
+		//모든 세션 제거
+		sess.invalidate();
+		
+		return "redirect:/";
+	}
+	
+	// 로그인 안했으면-> redirect:/login
+	// 로그인 했으면 -> join/myinfo
 	@GetMapping("/myinfo")
-	public String myinfo(Model m) {
+	public String myinfo(Model m, HttpSession sess) {
+		String returnPage = "join/myinfo";
 		
-		m.addAttribute("mbr", msrv.readOneMember());
-		
-		return "join/myinfo";
+		if (sess.getAttribute("m") != null) {
+			MemberVO mvo = (MemberVO) sess.getAttribute("m");
+			m.addAttribute("mbr", msrv.readOneMember(mvo.getUserid()));
+		} else {
+			returnPage = "redirect:/login";
+		}
+		return returnPage;
 	}
 }

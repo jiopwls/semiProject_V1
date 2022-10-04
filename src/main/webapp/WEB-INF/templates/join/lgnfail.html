@@ -1,0 +1,19 @@
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://ultraq.net.nz/thymeleaf/layout"
+layout:decorate="~{fragments/layout}"
+>
+
+<th:block layout:fragment="mystyle">
+</th:block>
+
+<th:block layout:fragment="main">
+	<div id="main">
+		<h1>로그인 실패</h1>
+		<div style="text-align:center">
+			<i class="bi bi-x-circle"></i>
+			<div>입력하신 아이디 또는 비밀번호가 일치하지 않습니다.</div>
+		</div>
+		
+	</div>
+</th:block>
+
+</html>

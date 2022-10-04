@@ -10,8 +10,11 @@
 				<li>
 					<a href="/join">회원가입</a>
 				</li>
-				<li>
+				<li th:if="${#strings.isEmpty(session.m)}">
 					<a href="/login">로그인</a>
+				</li>
+				<li th:unless="${#strings.isEmpty(session.m)}">
+					<a href="/logout">로그아웃</a>
 				</li>
 				<li>
 					<a href="/list">게시판</a>

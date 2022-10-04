@@ -22,9 +22,19 @@ public class MemberServiceImpl implements MemberService{
 	}
 
 	@Override
-	public MemberVO readOneMember() {
+	public MemberVO readOneMember(String uid) {
 		
-		return mdao.selectOneMember();
+		return mdao.selectOneMember(uid);
+	}
+
+	@Override
+	public boolean checkLogin(MemberVO m) {
+		boolean isLogin = false;
+		
+		//회원이 존재한다면
+		if((mdao.selectOneMember(m)) > 0) isLogin = true;
+		
+		return isLogin;
 	}
 	
 }

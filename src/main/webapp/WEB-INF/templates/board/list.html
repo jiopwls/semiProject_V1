@@ -5,30 +5,52 @@ layout:decorate="~{fragments/layout}"
 <th:block layout:fragment="mystyle">
 	<style>
 	
-		table{
-			border:1px solid black;
-			width:100%;
-			margin-top:50px;
-		}
-		th,td{
-			text-align:center;
-			outline:1px solid black;
-			padding:5px;
-		}
+		table {
+        width: 100%;
+        margin-top: 50px;
+    }
 
-		thead tr th{
-			border-bottom:4px double black;
-			
-		}
-		#newbtn{
-			display:block;
-			float:right;
-			margin-right:10px;
-			padding:3px 5px;
-		}
-		.reset{
-			font-weight:normal!important;
-		}
+    th,
+    td {
+        text-align: center;
+        padding: 5px;
+    }
+
+    thead {
+        background: skyblue;
+
+    }
+
+    tbody tr:nth-child(2n) {
+        background: rgba(135, 207, 235, 0.401);
+    }
+	tbody tr:last-child {
+		background:none;
+		
+	}
+    #newbtn {
+        display: block;
+        float: right;
+        margin-right:3px;
+        padding: 3px 5px;
+        background:none;
+        border:1px solid black;
+    }
+	#newbtn:hover{
+	cursor:pointer;
+	}
+    .reset {
+        font-weight: normal !important;
+    }
+
+    .font-up {
+        font-size: 26px;
+        vertical-align: top;
+        display: inline-block;
+        /* position: relative; */
+        margin-top: -10px;
+        padding: 0 5px;
+    }
 	</style>
 </th:block>
 
@@ -52,7 +74,6 @@ layout:decorate="~{fragments/layout}"
 					<th>작성일</th>
 					<th>조회수</th>
 				</tr>
-				
 			</thead>
 			<tbody>
 				<tr th:each="b: ${bdlist}">
@@ -66,7 +87,9 @@ layout:decorate="~{fragments/layout}"
 				</tr>
 				
 				<tr>
-					<td colspan="5">&laquo; &lsaquo;1 2 <span class="c_page">3</span> 4 5 6 7 8 9 10 &rsaquo; &raquo;</td>
+					<td colspan="5"><span class="font-up">&laquo; &lsaquo;</span>1 2 <span class="c_page">3</span> 4 5 6
+                        7 8 9 10 <span class="font-up">&rsaquo; &raquo;</span>
+                    </td>
 				</tr>
 			</tbody>
 		</table>
