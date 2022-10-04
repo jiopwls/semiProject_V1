@@ -57,7 +57,15 @@ layout:decorate="~{fragments/layout}"
 <th:block layout:fragment="main">
 	<div id="main">
 		<h1>게시판 목록</h1>
-		<button type="button" id="newbtn">새글쓰기</button>
+		<!--
+			1. not session.isEmpty()
+			2. not #string.isEmpty(session.m)
+			3.th:disabled="${session.m == null}"
+			
+		-->
+		<button type="button" th:if="${#strings.isEmpty(session.m)}" style="display:none;"></button>
+		<button type="button" id="newbtn" th:unless="${#strings.isEmpty(session.m)}">새글쓰기</button>
+		
 		<table>
 			<colgroup>
 				<col style="width:10%;">

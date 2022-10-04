@@ -22,11 +22,18 @@ public class MemberController {
 	// 로그 유형 : trace, debug, info, warn, error
 	protected Logger LOGGER = LoggerFactory.getLogger(getClass());
 	
+	
+	// 로그인 안했으면-> join/join
+	// 로그인 했으면 -> join/myinfo
 	@GetMapping("/join")
-	public String join() {
+	public String join(HttpSession sess) {
+		String returnPage = "join/join";
 		
-		LOGGER.info("join 호출");
-		return "join/join";
+		if(sess.getAttribute("m") != null)
+			returnPage = "redirect:/myinfo";
+		
+		return returnPage;
+		
 	}
 	
 	@PostMapping("/join")

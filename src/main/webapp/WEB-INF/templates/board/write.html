@@ -33,7 +33,7 @@ layout:decorate="~{fragments/layout}"
 			</div>
 			<div>
 				<label for="uid">작성자</label>
-				<input type="text" name="userid" id="uid" value="gd" readonly>
+				<input type="text" name="userid" id="uid" th:value="${session.m.userid}" readonly>
 			</div>
 			<div id="cnt_box">
 				<label for="cnt">본문</label>

@@ -5,9 +5,8 @@ font-family: 'Noto Sans KR', sans-serif !important;
 #container { width:950px;}
 /* 헤더 스타일*/
 	h1{margin:15px 0;}
-	nav ul {list-style:none; }
-	nav ul li {float:left; margin-left:100px; padding-bottom:10px;}
-	nav ul li:first-child {margin-left:140px;}
+	nav ul {list-style:none; width:100%; }
+	nav ul li {float:left; width:20%; margin-bottom:10px; text-align:center; display:inline;}
 	a{font-weight:bold!important; text-decoration:none; color:#000;}
 	a:visited{color:black;}
 	a:hover{text-decoration: underline; color:red;}	
