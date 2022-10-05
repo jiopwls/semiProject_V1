@@ -48,13 +48,22 @@ public class BoardDAOImpl implements BoardDAO{
 	}
 	
 	@Override
-	public List<BoardVO> selectBoard(int snum) {
-		String sql = "select b_no, title, userid, regdate,views from board order by b_no desc limit :snum , 20";
+	public List<BoardVO> selectBoard(String fkey, String fval, int snum) {
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("select b_no, title, userid, regdate, views from board ");
+		
+		if(fkey.equals("title")) sql.append(" where title like :fval ");
+		else if(fkey.equals("userid")) sql.append(" where userid like :fval ");
+		else if(fkey.equals("contents")) sql.append(" where contents like :fval ");
+		
+		sql.append(" order by b_no desc limit :snum , 20");
 		
 		Map<String, Object> params = new HashMap<>();
 		params.put("snum", snum);
+		params.put("fval", "%" + fval +"%");
 		
-		return jdbcNamedTemplate.query(sql, params, boardMapper);
+		return jdbcNamedTemplate.query(sql.toString(), params, boardMapper);
 	}
 	
 	@Override
@@ -77,5 +86,42 @@ public class BoardDAOImpl implements BoardDAO{
 //		};
 //		return jdbcTemplate.update(sql, params);
 //	}
+
+	
+	// 동적 질의문
+	// 조건에 따라 실행할 질의문의 형태가 바뀌는 것
+	// 제목으로 검색 : select * from board where title = ?
+	// 작성자로 검색 : select * from board where userid = ?
+	// 본문으로 검색 : select * from board where contents = ?
+	
+	// 테이블명, 컬럼명은 매개변수화 할 수 없다. 
+	// -> select * from ? where ? = ? (실행 x)
+	@Override
+	public int selectCountBoard(String fkey, String fval) {
+		
+		 StringBuilder sql = new StringBuilder();
+		
+		sql.append("select ceil(count(b_no)/20) pages from board ");
+		
+		if (fkey.equals("title")) sql.append(" where title like :fval");
+		else if (fkey.equals("userid")) sql.append(" where userid like :fval");
+		else if (fkey.equals("contents")) sql.append(" where contents like :fval");
+		
+		Map<String, Object> params = new HashMap<>();
+		params.put("fval", "%"+fval+"%");
+
+		return jdbcNamedTemplate.queryForObject(sql.toString(), params, Integer.class);
+	}
+
+		@Override
+		public int deleteBoard(String b_no) {
+			
+			String sql = "delete from board where b_no = ?";
+			
+			Object[] param = new Object[] {b_no};
+			
+			return jdbcTemplate.update(sql, param);
+		}
+
 
 }

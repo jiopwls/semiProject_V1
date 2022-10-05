@@ -26,15 +26,36 @@ public class BoardServiceImpl implements BoardService{
 	}
 
 	@Override
-	public List<BoardVO> readBoard(int snum) {
+	public List<BoardVO> readBoard(String fkey, String fval, int snum) {
 		
-		return bdao.selectBoard(snum);
+		return bdao.selectBoard(fkey, fval, snum);
 	}
 
 	@Override
 	public BoardVO readOneBoard(String b_no) {
 		
 		return bdao.selectOneBoard(b_no);
+	}
+
+	@Override
+	public int readCountBoard(String fkey, String fval) {
+		
+		return bdao.selectCountBoard(fkey, fval);
+	}
+
+	@Override
+	public int readCountBoard() {
+		
+		return 0;
+	}
+
+	@Override
+	public boolean removeBoard(String b_no) {
+		boolean isDelete = false;
+		
+		if (bdao.deleteBoard(b_no) > 0) isDelete = true;
+		
+		return isDelete;
 	}
 
 }

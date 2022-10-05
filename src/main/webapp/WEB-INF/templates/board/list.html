@@ -26,7 +26,7 @@ layout:decorate="~{fragments/layout}"
     }
 	tbody tr:last-child {
 		background:none;
-		
+		height:40px;
 	}
     #newbtn {
         display: block;
@@ -41,6 +41,7 @@ layout:decorate="~{fragments/layout}"
 	}
     .reset {
         font-weight: normal !important;
+        padding:0px 3px;
     }
 
     .font-up {
@@ -48,23 +49,61 @@ layout:decorate="~{fragments/layout}"
         vertical-align: top;
         display: inline-block;
         /* position: relative; */
-        margin-top: -10px;
-        padding: 0 5px;
+        margin-top: -7px;
+        padding: 0 2px!important;
     }
-    .cpage{font-weight:bold; color:red;}
+    .cpage{font-weight:bold; color:red; font-size:18px; padding:0 4px!important;}
     .reset{font-weight:normal;}
+    #find_box{
+    	position:absolute;
+    	vertical-align:center;
+    }
+    #find_box input,
+    #find_box button{
+    	vertical-align:bottom;
+    }
+    #fval {
+    	padding-left:5px;
+    	width:150px;
+    	height:23px;
+    }
+    #fkey{
+    	height:23px;
+    }
+    #findBtn{
+	    background:none;
+	    border:none;
+	    left:-23px;
+	    position:relative;
+	    top:-1px;
+	    cursor:pointer;
+    }
+	#findBtn i{
+		font-size:15px;
+	}
 	</style>
 </th:block>
 
 <th:block layout:fragment="main">
 	<div id="main" th:with="cpg=${(param.cpg == null)? 1:T(java.lang.Integer).parseInt(param.cpg)}">
-		<h1>게시판 목록 ([[${param.cpg}]] / [[${stpgn}]])</h1>
+		<h1 th:with="fqry=(${#httpServletRequest.queryString})">게시판 목록 [[${param.fkey}]] [[${param.fval}]]</h1>
 		<!--
 			1. not session.isEmpty()
 			2. not #string.isEmpty(session.m)
 			3.th:disabled="${session.m == null}"
 			
 		-->
+		<div id="find_box">
+			<select name="fkey" id='fkey'>
+				<option value="title" >제목</option>
+				<option value="userid" >작성자</option>
+				<option value="contents">본문</option>
+			</select>
+			<input name="fval" id="fval" type="text" placeholder="검색하기">
+			<button type="button" id="findBtn">
+				<i class="bi bi-search"></i>
+			</button>
+		</div>
 		<button type="button" th:if="${#strings.isEmpty(session.m)}" style="display:none;"></button>
 		<button type="button" id="newbtn" th:unless="${#strings.isEmpty(session.m)}">새글쓰기</button>
 		
@@ -98,16 +137,25 @@ layout:decorate="~{fragments/layout}"
 				
 				<tr>
 					<td colspan="5">
-					<span class="font-up">&laquo; &lsaquo;</span>
+					<span class="font-up">
+						<a th:href="@{/list(cpg=${cpg - 10},fkey=${param.fkey},fval=${param.fval})}" th:if="${cpg > 10}"class="reset">&laquo;</a>
+						<span th:if="${cpg < 11}"class="reset">&laquo;</span>
+                    	<a th:href="@{/list(cpg=${cpg - 1},fkey=${param.fkey},fval=${param.fval})}" th:if="${cpg > 1}" class="reset">&lsaquo;</a>
+                    	<span th:unless="${cpg > 1}" class="reset">&lsaquo;</span>
+					 </span>
                         <th:block th:each="i : ${#numbers.sequence(0,9)}">
-                        	<span th:text="${stpgn + i}" th:if="${cpg == (stpgn + i)}" class="cpage"></span>
-                        	<span th:unless="${cpg == (stpgn + i)}">
-                        		<a th:href="@{/list(cpg=${stpgn + i})}" class="reset">[[${stpgn + i}]]</a>
-                        	</span>
+	                       <th:block th:if="${(stpgn + i) <= pages}">
+		                       	<span th:text="${stpgn + i}" th:if="${cpg == (stpgn + i)}" class="cpage"></span>
+		                       	<span th:unless="${cpg == (stpgn + i)}">
+		                       	  <a th:href="@{/list(cpg=${stpgn + i},fkey=${param.fkey},fval=${param.fval})}" class="reset">[[${stpgn + i}]]</a>
+		                       	</span>
+                        	</th:block>
                         </th:block>
                     <span class="font-up">
-                    	<a th:href></a>
-                    &rsaquo; &raquo;</span>
+                    	<a th:if="${cpg < pages}" th:href="@{/list(cpg=${cpg + 1},fkey=${param.fkey},fval=${param.fval})}"class="reset">&rsaquo;</a>
+                    	<span th:unless="${cpg < pages}" th:href="@{/list(cpg=${cpg + 1},fkey=${param.fkey},fval=${param.fval})}"class="reset">&rsaquo;</span>
+                    	<a th:if="${cpg < (pages - 10) }" th:href="@{/list(cpg=${cpg + 10},fkey=${param.fkey},fval=${param.fval})}"class="reset">&raquo;</a>
+                    </span>
                     </td>
 				</tr>
 			</tbody>
@@ -117,8 +165,25 @@ layout:decorate="~{fragments/layout}"
 
 <th:block layout:fragment="myscript">
 	<script>
+		// emcascript 2020 지원시 - 최신 브라우저 사용시
+		// Cannot read properties of null (reading 'addEventListener') 세련되게 처리하기
+		// optional chaining 사용 -> 객체?.addEventListener
+		
 		let newbtn = document.getElementById('newbtn');
-		newbtn.addEventListener('click',go2new);
+		newbtn?.addEventListener('click',go2new);
+		
+		// 검색시 요청 url : /list?fkey=title&fval=내용
+		let findbtn = document.getElementById('findBtn');
+		findbtn.addEventListener('click', () => {
+			let fkey = document.querySelector("#fkey");
+			let fval = document.querySelector("#fval");
+			if(fval.value =="") alert('찾으실 내용을 입력해주세요.');
+			else {
+				let qry = '?fkey=' + fkey.value;
+				qry += '&fval=' + fval.value;
+				location.href = '/list' + qry;
+			}
+		});
 		
 		function go2new(){
 			location.href = '/write';
