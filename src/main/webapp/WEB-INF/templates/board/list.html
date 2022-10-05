@@ -51,12 +51,14 @@ layout:decorate="~{fragments/layout}"
         margin-top: -10px;
         padding: 0 5px;
     }
+    .cpage{font-weight:bold; color:red;}
+    .reset{font-weight:normal;}
 	</style>
 </th:block>
 
 <th:block layout:fragment="main">
-	<div id="main">
-		<h1>게시판 목록</h1>
+	<div id="main" th:with="cpg=${(param.cpg == null)? 1:T(java.lang.Integer).parseInt(param.cpg)}">
+		<h1>게시판 목록 ([[${param.cpg}]] / [[${stpgn}]])</h1>
 		<!--
 			1. not session.isEmpty()
 			2. not #string.isEmpty(session.m)
@@ -95,8 +97,17 @@ layout:decorate="~{fragments/layout}"
 				</tr>
 				
 				<tr>
-					<td colspan="5"><span class="font-up">&laquo; &lsaquo;</span>1 2 <span class="c_page">3</span> 4 5 6
-                        7 8 9 10 <span class="font-up">&rsaquo; &raquo;</span>
+					<td colspan="5">
+					<span class="font-up">&laquo; &lsaquo;</span>
+                        <th:block th:each="i : ${#numbers.sequence(0,9)}">
+                        	<span th:text="${stpgn + i}" th:if="${cpg == (stpgn + i)}" class="cpage"></span>
+                        	<span th:unless="${cpg == (stpgn + i)}">
+                        		<a th:href="@{/list(cpg=${stpgn + i})}" class="reset">[[${stpgn + i}]]</a>
+                        	</span>
+                        </th:block>
+                    <span class="font-up">
+                    	<a th:href></a>
+                    &rsaquo; &raquo;</span>
                     </td>
 				</tr>
 			</tbody>
