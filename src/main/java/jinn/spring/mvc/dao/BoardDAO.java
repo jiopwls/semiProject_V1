@@ -16,5 +16,7 @@ public interface BoardDAO {
 
 	int deleteBoard(String b_no);
 
+	int updateBoard(BoardVO bvo);
+
 
 }

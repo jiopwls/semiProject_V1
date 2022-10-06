@@ -4,7 +4,6 @@ layout:decorate="~{fragments/layout}"
 >
 
 <th:block layout:fragment="mystyle">
-
 <style>
 	#boardfrm{
 		width:600px;
@@ -21,20 +20,16 @@ layout:decorate="~{fragments/layout}"
 #boardfrm div button:first-child{margin-left:115px; width:80px;}
 #boardfrm div button{margin-left:10px; width:80px;}
 #cnt_box label{vertical-align:top;}
-.danger{color:red; font-weight:bold;}
-.captcha{margin-left:-61px;}
 </style>
-<script src="https://www.google.com/recaptcha/api.js" async defer>
-</script>
 </th:block>
 
 <th:block layout:fragment="main">
 	<div id="main">
-		<h1>게시판 새글쓰기</h1>
+		<h1>게시글 수정하기</h1>
 		<form name="boardfrm" id="boardfrm">
 			<div>
 				<label for="tlt">제목</label>
-				<input type="text" name="title" id="tlt" th:value="${(bvo == null)}? '':${bvo.title}">
+				<input type="text" name="title" id="tlt" th:value="${bd.title}">
 			</div>
 			<div>
 				<label for="uid">작성자</label>
@@ -42,17 +37,11 @@ layout:decorate="~{fragments/layout}"
 			</div>
 			<div id="cnt_box">
 				<label for="cnt">본문</label>
-				<textarea cols="55" rows="7" name="contents" id="cnt" th:text="${(bvo == null)}? '':${bvo.contents}"></textarea>
-			</div>
-			<div class="captcha">
-				<div class="g-recaptcha" data-sitekey="6Lc181oiAAAAADBg-N5523PFkRy8xTsCKvMEOcYB">
-				</div>
-				<span class="danger" th:text="${msg}"></span>
-				<input type="hidden" name="gcaptcha">
+				<textarea cols="55" rows="7" name="contents" id="cnt" th:text="${bd.contents}"></textarea>
 			</div>
 			<div>
-				<button type="button" id="bd_okbtn">입력완료</button>
-				<button type="reset">다시입력</button>
+				<button type="button" id="bd_okbtn">수정완료</button>
+				<button type="reset">다시수정</button>
 			</div>
 		</form>
 	</div>
@@ -68,13 +57,10 @@ layout:decorate="~{fragments/layout}"
 		
 		if (frm.title.value == '') alert('제목을 입력해주세요.');
 		else if (frm.contents.value == '')  alert('본문을 입력해주세요.');
-		else if (grecaptcha.getResponse()== '')  alert('리캡챠 확인을 눌러주세요.');
 		else {
-			 frm.gcaptcha.value = grecaptcha.getResponse();
 			frm.method = 'post';
 			frm.submit();
 		}
 	}
 	</script>
-	
 </th:block>

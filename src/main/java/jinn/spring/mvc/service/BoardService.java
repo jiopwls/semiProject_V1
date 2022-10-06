@@ -17,4 +17,6 @@ public interface BoardService {
 	int readCountBoard();
 	
 	boolean removeBoard(String b_no);
+
+	boolean modifyBoard(BoardVO bvo);
 }

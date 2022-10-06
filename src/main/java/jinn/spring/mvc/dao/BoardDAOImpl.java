@@ -123,5 +123,19 @@ public class BoardDAOImpl implements BoardDAO{
 			return jdbcTemplate.update(sql, param);
 		}
 
+		@Override
+		public int updateBoard(BoardVO bvo) {
+			
+			String sql = "update board set title = :title, contents = :contents where b_no = :b_no";
+			
+			Map<String, Object> params = new HashMap<>();
+			
+			params.put("title", bvo.getTitle());
+			params.put("contents", bvo.getContents());
+			params.put("b_no", bvo.getB_no());
+			
+			return jdbcNamedTemplate.update(sql,params);
+		}
+
 
 }

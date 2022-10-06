@@ -58,4 +58,14 @@ public class BoardServiceImpl implements BoardService{
 		return isDelete;
 	}
 
+	@Override
+	public boolean modifyBoard(BoardVO bvo) {
+		boolean isUpdate = false;
+		
+		if (bdao.updateBoard(bvo) > 0) isUpdate = true;
+		
+		return isUpdate;
+		
+	}
+
 }
