@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import jinn.spring.mvc.service.MemberService;
 import jinn.spring.mvc.vo.MemberVO;
@@ -90,4 +91,20 @@ public class MemberController {
 		}
 		return returnPage;
 	}
+	
+	/* 아이디 중복검사 - REST
+	 view없이 결과를 다이렉트로 보여줌
+	 return "Hello, world"; 이게 바로 보여짐. localhost:8080/checkUid;
+	*/
+	@ResponseBody
+	@GetMapping("/check_uid")
+	public String check_uid(String uid) {
+		String result = "잘못된 호출 방식입니다.";
+		
+		if(uid != null || !uid.equals("")) {
+			result = msrv.checkUid(uid);
+		}
+				return result;
+	}
+	
 }
