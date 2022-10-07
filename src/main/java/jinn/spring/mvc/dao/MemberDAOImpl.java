@@ -1,7 +1,12 @@
 package jinn.spring.mvc.dao;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import jinn.spring.mvc.vo.BoardVO;
 import jinn.spring.mvc.vo.MemberVO;
+import jinn.spring.mvc.vo.Zipcode;
 
 @Repository("mdao")
 public class MemberDAOImpl implements MemberDAO{
@@ -24,6 +30,9 @@ public class MemberDAOImpl implements MemberDAO{
 	private SimpleJdbcInsert simpleInsert;
 	private NamedParameterJdbcTemplate jdbcNameTemplate;
 	
+	@Autowired
+	private SqlSession sqlSession; 
+	private RowMapper<Zipcode> zipcodeMapper = BeanPropertyRowMapper.newInstance(Zipcode.class);
 	//private RowMapper<MemberVO> memberMapper = BeanPropertyRowMapper.newInstance(MemberVO.class);
 	
 	public MemberDAOImpl(DataSource dataSource) {
@@ -36,9 +45,7 @@ public class MemberDAOImpl implements MemberDAO{
 	
 	@Override
 	public int insertMember(MemberVO mvo) {
-		SqlParameterSource params = new BeanPropertySqlParameterSource(mvo);
-		
-		return simpleInsert.execute(params);
+		return sqlSession.insert("member.insertMember", mvo);
 	}
 
 	@Override
@@ -79,8 +86,20 @@ public class MemberDAOImpl implements MemberDAO{
 		
 		return jdbcTemplate.queryForObject(sql, param, Integer.class);
 	}
-	
-	
+
+	@Override
+	public List<Zipcode> selectZipcode(String dong) {
+String sql = "select * from zipcode where dong like :dong";
+        
+        Map<String, Object> param = new HashMap<>();
+        param.put("dong", dong);        
+        
+        return jdbcNameTemplate.query(sql, param, zipcodeMapper);
+		
+	}
+
+
+
 	// 콜백 메서드 정의 : mapRow
 //	private class MemberRowMapper implements RowMapper<MemberVO>{
 //
