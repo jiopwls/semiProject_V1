@@ -4,8 +4,43 @@
     
 <mapper namespace="member">
 
-	<insert id="insertMember" parameterType="jinn.spring.mvc.vo.MemberVO" statementType="PREPARED">
-		insert into member (userid, passwd, name, email) values (#{userid}, #{passwd}, #{name}, #{email})
+	<insert
+		id="insertMember"
+		parameterType="jinn.spring.mvc.vo.MemberVO"
+		statementType="PREPARED">
+			insert into member (userid, passwd, name, email) values (#{userid}, #{passwd}, #{name}, #{email})
 	</insert>	
+	
+	<select
+		id="selectOneMember"
+		parameterType="String"
+		statementType="PREPARED"
+		resultType="jinn.spring.mvc.vo.MemberVO">
+			select userid, name, email, regdate from member where userid = #{userid}
+	</select>
+	
+	<select
+		id="selectCountMember"
+		parameterType="jinn.spring.mvc.vo.MemberVO"
+		statementType="PREPARED"
+		resultType="int">
+			select count(mno) from member where userid = #{userid} and passwd = #{passwd}
+	</select>
+	
+	<select
+		id="selectCountUserid"
+		parameterType="String"
+		statementType="PREPARED"
+		resultType="int">
+			select count(mno) cnt from member where userid = #{userid}
+	</select>
+	
+	<select
+		id="selectZipcode"
+		parameterType="String"
+		statementType="PREPARED"
+		resultType="jinn.spring.mvc.vo.Zipcode">
+			select * from zipcode where dong like #{dong}
+	</select>
 </mapper>
 
