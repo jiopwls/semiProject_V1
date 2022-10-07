@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.sql.DataSource;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,7 +31,8 @@ public class BoardDAOImpl implements BoardDAO{
 	
 	private RowMapper<BoardVO> boardMapper = BeanPropertyRowMapper.newInstance(BoardVO.class);
 	
-	
+	@Autowired
+	private SqlSession sqlSession;
 	
 	public BoardDAOImpl(DataSource dataSource) {
 		simpleInsert = new SimpleJdbcInsert(dataSource)
@@ -42,41 +44,47 @@ public class BoardDAOImpl implements BoardDAO{
 	
 	@Override
 	public int insertBoard(BoardVO bvo) {
-		SqlParameterSource params = new BeanPropertySqlParameterSource(bvo);
 		
-		return simpleInsert.execute(params);
+		return sqlSession.insert("board.insertBoard", bvo);
 	}
 	
 	@Override
 	public List<BoardVO> selectBoard(String fkey, String fval, int snum) {
-		StringBuilder sql = new StringBuilder();
-		
-		sql.append("select b_no, title, userid, regdate, views from board ");
-		
-		if(fkey.equals("title")) sql.append(" where title like :fval ");
-		else if(fkey.equals("userid")) sql.append(" where userid like :fval ");
-		else if(fkey.equals("contents")) sql.append(" where contents like :fval ");
-		
-		sql.append(" order by b_no desc limit :snum , 20");
 		
 		Map<String, Object> params = new HashMap<>();
+		params.put("fkey", fkey);
+		params.put("fval", fval);
 		params.put("snum", snum);
-		params.put("fval", "%" + fval +"%");
 		
-		return jdbcNamedTemplate.query(sql.toString(), params, boardMapper);
+		return sqlSession.selectList("board.selectBoard", params);
+		/*
+		 * StringBuilder sql = new StringBuilder();
+		 * 
+		 * sql.append("select b_no, title, userid, regdate, views from board ");
+		 * 
+		 * if(fkey.equals("title")) sql.append(" where title like :fval "); else
+		 * if(fkey.equals("userid")) sql.append(" where userid like :fval "); else
+		 * if(fkey.equals("contents")) sql.append(" where contents like :fval ");
+		 * 
+		 * sql.append(" order by b_no desc limit :snum , 20");
+		 */ 
+		 
 	}
 	
 	@Override
 	public BoardVO selectOneBoard(String b_no) {
-		//본문 글에 대한 조회수 증가
-		String sql = "update board set views = views + 1 where b_no = ?";
-		Object[] param = {b_no};
-		jdbcTemplate.update(sql, param);
+		sqlSession.update("board.viewBoard", b_no);
 		
-		//본문 글 가져오기
-		sql = "select * from board where b_no = ?";
-		return jdbcTemplate.queryForObject(sql, param, boardMapper);
+		return sqlSession.selectOne("board.selectOneBoard", b_no);
 	}
+		/*
+		 * //본문 글에 대한 조회수 증가 String sql =
+		 * "update board set views = views + 1 where b_no = ?"; Object[] param = {b_no};
+		 * jdbcTemplate.update(sql, param);
+		 * 
+		 * //본문 글 가져오기 sql = "select * from board where b_no = ?"; return
+		 * jdbcTemplate.queryForObject(sql, param, boardMapper);
+		 */
 //	@Override
 //	public int insertBoard(BoardVO bvo) {
 //		String sql = "insert into board" + "(title,userid,contents)" + "value(?,?,?)";
@@ -99,43 +107,57 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public int selectCountBoard(String fkey, String fval) {
 		
-		 StringBuilder sql = new StringBuilder();
-		
-		sql.append("select ceil(count(b_no)/20) pages from board ");
-		
-		if (fkey.equals("title")) sql.append(" where title like :fval");
-		else if (fkey.equals("userid")) sql.append(" where userid like :fval");
-		else if (fkey.equals("contents")) sql.append(" where contents like :fval");
-		
-		Map<String, Object> params = new HashMap<>();
-		params.put("fval", "%"+fval+"%");
+	      Map<String, Object> params = new HashMap<>();
+	      params.put("fkey",fkey);
+	      params.put("fval",fval);
 
-		return jdbcNamedTemplate.queryForObject(sql.toString(), params, Integer.class);
+	      return sqlSession.selectOne("board.selectCountBoard",params);
+		
+		/*
+		 * StringBuilder sql = new StringBuilder();
+		 * 
+		 * sql.append("select ceil(count(b_no)/20) pages from board ");
+		 * 
+		 * if (fkey.equals("title")) sql.append(" where title like :fval"); else if
+		 * (fkey.equals("userid")) sql.append(" where userid like :fval"); else if
+		 * (fkey.equals("contents")) sql.append(" where contents like :fval");
+		 * 
+		 * Map<String, Object> params = new HashMap<>(); params.put("fval",
+		 * "%"+fval+"%");
+		 * 
+		 * return jdbcNamedTemplate.queryForObject(sql.toString(), params,
+		 * Integer.class);
+		 */
 	}
 
 		@Override
 		public int deleteBoard(String b_no) {
 			
-			String sql = "delete from board where b_no = ?";
+			return sqlSession.delete("board.deleteBoard", b_no);
 			
-			Object[] param = new Object[] {b_no};
-			
-			return jdbcTemplate.update(sql, param);
+			/*
+			 * String sql = "delete from board where b_no = ?";
+			 * 
+			 * Object[] param = new Object[] {b_no};
+			 * 
+			 * return jdbcTemplate.update(sql, param);
+			 */
 		}
 
 		@Override
 		public int updateBoard(BoardVO bvo) {
 			
-			String sql = "update board set title = :title, contents = :contents where b_no = :b_no";
-			
-			Map<String, Object> params = new HashMap<>();
-			
-			params.put("title", bvo.getTitle());
-			params.put("contents", bvo.getContents());
-			params.put("b_no", bvo.getB_no());
-			
-			return jdbcNamedTemplate.update(sql,params);
+			return sqlSession.update("board.updateBoard", bvo);
+			/*
+			 * String sql =
+			 * "update board set title = :title, contents = :contents where b_no = :b_no";
+			 * 
+			 * Map<String, Object> params = new HashMap<>();
+			 * 
+			 * params.put("title", bvo.getTitle()); params.put("contents",
+			 * bvo.getContents()); params.put("b_no", bvo.getB_no());
+			 * 
+			 * return jdbcNamedTemplate.update(sql,params);
+			 */
 		}
-
-
 }

@@ -4,4 +4,59 @@
     
 <mapper namespace="board">
 	
+	<insert
+		id="insertBoard"
+		statementType="PREPARED"
+		parameterType="jinn.spring.mvc.vo.BoardVO">
+			insert into board (title, userid, contents) values (#{title}, #{userid}, #{contents})
+	</insert>
+
+	<select
+		id="selectOneBoard"
+		statementType="PREPARED"
+		parameterType="String"
+		resultType="jinn.spring.mvc.vo.BoardVO">
+			select * from board where b_no = #{b_no}
+	</select>
+	
+	<select
+		id="selectBoard"
+		statementType="PREPARED"
+		parameterType="Map"
+		resultType="jinn.spring.mvc.vo.BoardVO">
+			select b_no, title, userid, regdate, views from board 
+			<if test="fkey != ''">where ${fkey} like #{fval}</if>
+			order by b_no desc limit #{snum}, 20
+	</select>
+	
+	<select
+		id="selectCountBoard"
+		statementType="PREPARED"
+		parameterType="Map"
+		resultType="int">
+			select ceil(count(b_no)/20) pages from board
+			<if test="fkey != ''">where ${fkey} like #{fval}</if>
+	</select>
+	
+	<update
+		id="viewBoard"
+		statementType="PREPARED"
+		parameterType="String">
+			update board set views = views + 1 where b_no = #{b_no}
+	</update>
+	
+	<delete
+		id="deleteBoard"
+		statementType="PREPARED"
+		parameterType="String">
+			delete from board where b_no = #{b_no}
+	</delete>
+	
+	<update
+		id="updateBoard"
+		statementType="PREPARED"
+		parameterType="jinn.spring.mvc.vo.BoardVO">
+			update board set title = #{title}, contents = #{contents} where b_no = #{b_no}
+	</update>
+	
 </mapper>
